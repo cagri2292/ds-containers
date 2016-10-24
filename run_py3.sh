@@ -23,5 +23,5 @@ shift $((OPTIND-1))
 FOLDER="$d/$n/data"
 mkdir -p $FOLDER
 
-CONTAINER=`docker run -d -p $p:8888 -v $FOLDER:/home/ds/notebooks dataquestio/python3-starter --name $n`
+CONTAINER=`docker run -d -p $p:8888 -v $FOLDER:/home/ds/notebooks --name $n dataquestio/python3-starter`
 echo $CONTAINER
