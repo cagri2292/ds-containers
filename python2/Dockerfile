@@ -29,6 +29,10 @@ ADD run_ipython.sh /home/ds
 RUN chmod +x /home/ds/run_ipython.sh
 RUN chown ds /home/ds/run_ipython.sh
 
+RUN mkdir -p /home/ds/.pypython 
+ADD ptpython/config.py /home/ds/.ptpython/config.py
+RUN chown ds /home/ds/.ptpython/config.py
+
 ADD .bashrc.template /home/ds/.bashrc
 
 EXPOSE 8888
