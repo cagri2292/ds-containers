@@ -31,7 +31,8 @@ RUN chown ds /home/ds/run_ipython.sh
 
 RUN mkdir -p /home/ds/.pypython 
 ADD ptpython/config.py /home/ds/.ptpython/config.py
-RUN chown ds /home/ds/.ptpython/config.py
+RUN touch /home/ds/.ptpython/history
+RUN chown -R ds /home/ds/.ptpython
 
 ADD .bashrc.template /home/ds/.bashrc
 
