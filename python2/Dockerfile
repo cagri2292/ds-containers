@@ -9,7 +9,9 @@ ENV LANG en_US.UTF-8
 RUN apt-get update -y && apt-get install build-essential -y
 
 ADD apt-packages.txt /tmp/apt-packages.txt
-RUN xargs -a /tmp/apt-packages.txt apt-get install -y
+RUN xargs -a /tmp/apt-packages.txt apt-get install -y \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN pip install virtualenv
 RUN /usr/local/bin/virtualenv /opt/ds --distribute
