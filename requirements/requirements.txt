@@ -1,5 +1,4 @@
 jupyter
-pyzmq
 scipy
 pandas
 matplotlib
@@ -7,13 +6,8 @@ statsmodels
 scikit-learn
 seaborn
 nltk
-gensim
 sympy
-bokeh
 networkx
 theano
-requests
-beautifulsoup4
-pymc
 ptpython
 pystan

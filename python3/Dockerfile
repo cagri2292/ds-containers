@@ -9,30 +9,30 @@ ENV LANG en_US.UTF-8
 RUN apt-get update -y && apt-get install build-essential -y
 
 ADD apt-packages.txt /tmp/apt-packages.txt
-RUN xargs -a /tmp/apt-packages.txt apt-get install -y \
+RUN xargs -a /tmp/apt-packages.txt apt-get install --no-install-recommends -y \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN pip install virtualenv
-RUN /usr/local/bin/virtualenv /opt/ds --distribute --python=/usr/bin/python3
+RUN pip install virtualenv \
+  && /usr/local/bin/virtualenv /opt/ds --distribute --python=/usr/bin/python3
 
 ADD /requirements/ /tmp/requirements
 
-RUN /opt/ds/bin/pip install -r /tmp/requirements/pre-requirements.txt
-RUN /opt/ds/bin/pip install -r /tmp/requirements/requirements.txt
+RUN /opt/ds/bin/pip install -r /tmp/requirements/pre-requirements.txt \
+  && /opt/ds/bin/pip install -r /tmp/requirements/requirements.txt
 
-RUN useradd --create-home --home-dir /home/ds --shell /bin/bash ds
-RUN chown -R ds /opt/ds
-RUN adduser ds sudo
+RUN useradd --create-home --home-dir /home/ds --shell /bin/bash ds \
+  && chown -R ds /opt/ds \
+  && adduser ds sudo
 
 ADD run_ipython.sh /home/ds
-RUN chmod +x /home/ds/run_ipython.sh
-RUN chown ds /home/ds/run_ipython.sh
+RUN chmod +x /home/ds/run_ipython.sh \
+  && chown ds /home/ds/run_ipython.sh
 
 RUN mkdir -p /home/ds/.pypython 
 ADD ptpython/config.py /home/ds/.ptpython/config.py
-RUN touch /home/ds/.ptpython/history
-RUN chown -R ds /home/ds/.ptpython
+RUN touch /home/ds/.ptpython/history \
+  && chown -R ds /home/ds/.ptpython
 
 ADD .bashrc.template /home/ds/.bashrc
 
