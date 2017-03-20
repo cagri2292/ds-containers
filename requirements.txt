@@ -1,3 +1,5 @@
+numpy
+cython
 jupyter
 scipy
 pandas
