@@ -2,7 +2,6 @@ numpy
 cython
 jupyter
 scipy
-pandas
 matplotlib
 statsmodels
 scikit-learn
@@ -13,3 +12,5 @@ networkx
 theano
 ptpython
 pystan
+xlrd
+pandas
