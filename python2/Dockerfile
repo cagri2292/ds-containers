@@ -24,6 +24,7 @@ ADD run_ipython.sh /home/ds
 RUN chmod +x /home/ds/run_ipython.sh \
   && chown ds /home/ds/run_ipython.sh \
   && mkdir -p /home/ds/.ptpython \
+  && mkdir -p /home/ds/.jupyter \
   && touch /home/ds/.ptpython/history \
   && mkdir -p /home/ds/notebooks \
   && chown -R ds /home/ds \
@@ -31,7 +32,11 @@ RUN chmod +x /home/ds/run_ipython.sh \
   && echo "ds ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 ADD ptpython/config.py /home/ds/.ptpython/config.py
+ADD jupyter/jupyter_notebook_config.py /home/ds/.jupyter/jupyter_notebook_config.py
 ADD .bashrc.template /home/ds/.bashrc
+
+RUN chown -R ds /home/ds
+
 
 EXPOSE 8888
 USER ds
