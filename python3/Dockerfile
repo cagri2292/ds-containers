@@ -35,8 +35,6 @@ ADD ptpython/config.py /home/ds/.ptpython/config.py
 ADD jupyter/jupyter_notebook_config.py /home/ds/.jupyter/jupyter_notebook_config.py
 ADD .bashrc.template /home/ds/.bashrc
 
-RUN chown -R ds /home/ds
-
 EXPOSE 8888
 USER ds
 ENV HOME=/home/ds
