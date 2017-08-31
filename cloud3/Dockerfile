@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+FROM dataquestio/ubuntu-base
+
+# Export env settings
+ENV TERM=xterm
+ENV LANG en_US.UTF-8
+ENV USER=ds USER_ID=1001 USER_GID=1002
+
+ADD requirements.txt /tmp/requirements.txt
+ADD apt-packages.txt /tmp/apt-packages.txt
+
+RUN groupadd --gid "${USER_GID}" "${USER}" && \
+    useradd \
+      --uid ${USER_ID} \
+      --gid ${USER_GID} \
+      --create-home \
+      --home-dir /home/ds \
+      --shell /bin/bash \
+      ${USER}
+
+RUN apt-get update -y && apt-get install build-essential -y \
+  && xargs -a /tmp/apt-packages.txt apt-get install --no-install-recommends -y \
+  && apt-get clean \
+  && pip install virtualenv \
+  && /usr/local/bin/virtualenv /opt/ds --distribute --python=/usr/bin/python3 \
+  && /opt/ds/bin/pip install -r /tmp/requirements.txt \
+  && chown -R ds /opt/ds \
+  && adduser ds sudo \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
+
+ADD run_ipython.sh /home/ds
+RUN chmod +x /home/ds/run_ipython.sh \
+  && chown ds /home/ds/run_ipython.sh \
+  && mkdir -p /home/ds/.ptpython \
+  && mkdir -p /home/ds/.jupyter \
+  && touch /home/ds/.ptpython/history \
+  && mkdir -p /home/ds/notebooks \
+  && chown -R ds /home/ds \
+  && usermod -a -G sudo ds \
+  && echo "ds ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+ADD ptpython/config.py /home/ds/.ptpython/config.py
+ADD jupyter/jupyter_notebook_config.py /home/ds/.jupyter/jupyter_notebook_config.py
+ADD .bashrc.template /home/ds/.bashrc
+
+EXPOSE 8888
+USER ds
+ENV HOME=/home/ds
+ENV SHELL=/bin/bash
+ENV USER=ds
+VOLUME /home/ds/notebooks
+WORKDIR /home/ds/notebooks
+
+CMD ["/home/ds/run_ipython.sh"]
