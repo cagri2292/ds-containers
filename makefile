@@ -4,4 +4,7 @@ py2:
 py3:
 	docker build -t cagrisofu/jupyter3 -f python3/Dockerfile .
 
+cloud3:
+	docker build -t cagrisofu/jupyter3-cloud -f cloud3/Dockerfile .
+
 
