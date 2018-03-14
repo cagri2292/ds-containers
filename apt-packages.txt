@@ -8,9 +8,7 @@ git
 gfortran
 gcc
 clang
-libblas3gf
 libblas-dev
-liblapack3gf
 liblapack-dev
 libatlas-base-dev
 libxml2-dev
@@ -34,3 +32,4 @@ apt-transport-https
 ca-certificates
 wget
 pandoc
+

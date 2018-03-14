@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FROM dataquestio/ubuntu-base
+FROM phusion/baseimage
 
 # Export env settings
 ENV TERM=xterm
@@ -25,12 +25,17 @@ RUN apt-get update -y && apt-get install build-essential -y \
   && pip install virtualenv \
   && /usr/local/bin/virtualenv /opt/jpy3 --distribute --python=/usr/bin/python3 \
   && /opt/jpy3/bin/pip install -r /tmp/requirements.txt \
+  && /opt/jpy3/bin/pip install http://download.pytorch.org/whl/cu80/torch-0.3.1-cp35-cp35m-linux_x86_64.whl \
+  && /opt/jpy3/bin/pip install torchvision \
+  && /opt/jpy3/bin/pip install pyro-ppl \
   && chown -R jpy3 /opt/jpy3 \
   && adduser jpy3 sudo \
-  && jupyter serverextension enable --py jupyterlab --sys-prefix \
+  && /opt/jpy3/bin/jupyter serverextension enable --py jupyterlab --sys-prefix \
+  && /opt/jpy3/bin/jupyter nbextension enable --py --sys-prefix widgetsnbextension \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
 ADD run_ipython.sh /home/jpy3
+ADD ssl /home/jpy3/.ssl
 RUN chmod +x /home/jpy3/run_ipython.sh \
   && chown jpy3 /home/jpy3/run_ipython.sh \
   && mkdir -p /home/jpy3/.ptpython \
