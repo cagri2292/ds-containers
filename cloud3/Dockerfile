@@ -5,7 +5,7 @@ FROM dataquestio/ubuntu-base
 # Export env settings
 ENV TERM=xterm
 ENV LANG en_US.UTF-8
-ENV USER=ds USER_ID=1001 USER_GID=1002
+ENV USER=jpy3 USER_ID=1001 USER_GID=1002
 
 ADD requirements.txt /tmp/requirements.txt
 ADD apt-packages.txt /tmp/apt-packages.txt
@@ -15,7 +15,7 @@ RUN groupadd --gid "${USER_GID}" "${USER}" && \
       --uid ${USER_ID} \
       --gid ${USER_GID} \
       --create-home \
-      --home-dir /home/ds \
+      --home-dir /home/jpy3 \
       --shell /bin/bash \
       ${USER}
 
@@ -23,33 +23,32 @@ RUN apt-get update -y && apt-get install build-essential -y \
   && xargs -a /tmp/apt-packages.txt apt-get install --no-install-recommends -y \
   && apt-get clean \
   && pip install virtualenv \
-  && /usr/local/bin/virtualenv /opt/ds --distribute --python=/usr/bin/python3 \
-  && /opt/ds/bin/pip install -r /tmp/requirements.txt \
-  && chown -R ds /opt/ds \
-  && adduser ds sudo \
+  && /usr/local/bin/virtualenv /opt/jpy3 --distribute --python=/usr/bin/python3 \
+  && /opt/jpy3/bin/pip install -r /tmp/requirements.txt \
+  && chown -R jpy3 /opt/jpy3 \
+  && adduser jpy3 sudo \
+  && jupyter serverextension enable --py jupyterlab --sys-prefix \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
-ADD run_ipython.sh /home/ds
-RUN chmod +x /home/ds/run_ipython.sh \
-  && chown ds /home/ds/run_ipython.sh \
-  && mkdir -p /home/ds/.ptpython \
-  && mkdir -p /home/ds/.jupyter \
-  && touch /home/ds/.ptpython/history \
-  && mkdir -p /home/ds/notebooks \
-  && chown -R ds /home/ds \
-  && usermod -a -G sudo ds \
-  && echo "ds ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+ADD run_ipython.sh /home/jpy3
+RUN chmod +x /home/jpy3/run_ipython.sh \
+  && chown jpy3 /home/jpy3/run_ipython.sh \
+  && mkdir -p /home/jpy3/.ptpython \
+  && mkdir -p /home/jpy3/.jupyter \
+  && mkdir -p /home/jpy3/notebooks \
+  && chown -R jpy3 /home/jpy3 \
+  && usermod -a -G sudo jpy3 \
+  && echo "jpy3 ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
-ADD ptpython/config.py /home/ds/.ptpython/config.py
-ADD jupyter/jupyter_notebook_config.py /home/ds/.jupyter/jupyter_notebook_config.py
-ADD .bashrc.template /home/ds/.bashrc
+ADD jupyter/jupyter_notebook_config.py /home/jpy3/.jupyter/jupyter_notebook_config.py
+ADD .bashrc.template /home/jpy3/.bashrc
 
 EXPOSE 8888
-USER ds
-ENV HOME=/home/ds
+USER jpy3
+ENV HOME=/home/jpy3
 ENV SHELL=/bin/bash
-ENV USER=ds
-VOLUME /home/ds/notebooks
-WORKDIR /home/ds/notebooks
+ENV USER=jpy3
+VOLUME /home/jpy3/notebooks
+WORKDIR /home/jpy3/notebooks
 
-CMD ["/home/ds/run_ipython.sh"]
+CMD ["/home/jpy3/run_ipython.sh"]
