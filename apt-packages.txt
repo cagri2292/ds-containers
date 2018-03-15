@@ -32,4 +32,4 @@ apt-transport-https
 ca-certificates
 wget
 pandoc
-
+libav-tools
