@@ -5,15 +5,17 @@ FROM phusion/baseimage
 # Export env settings
 ENV TERM=xterm
 ENV LANG en_US.UTF-8
-ENV USER=jpy3 USER_ID=1001 USER_GID=1002
+ENV USER=jpy3
+ARG UID="1000"
+ARG GID="1000"
 
 ADD requirements.txt /tmp/requirements.txt
 ADD apt-packages.txt /tmp/apt-packages.txt
 
-RUN groupadd --gid "${USER_GID}" "${USER}" && \
+RUN groupadd --gid "$GID" "${USER}" && \
     useradd \
-      --uid ${USER_ID} \
-      --gid ${USER_GID} \
+      --uid "$UID" \
+      --gid "$GID" \
       --create-home \
       --home-dir /home/jpy3 \
       --shell /bin/bash \
