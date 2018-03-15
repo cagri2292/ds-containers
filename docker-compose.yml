@@ -1,0 +1,10 @@
+version: "2"
+services:
+    jpylab3:
+        container_name: jpylab3
+        image: cagrisofu/jpylab3
+        ports:
+            - "443:8888"
+
+        volumes:
+            - ./:/home/jpy3/notebooks 
