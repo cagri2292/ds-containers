@@ -4,6 +4,8 @@ jupyter
 jupyterlab
 scipy
 matplotlib
+pandas
+patsy
 statsmodels
 scikit-learn
 seaborn
@@ -19,3 +21,4 @@ pystan
 tensorflow
 six
 edward
+pymc3
