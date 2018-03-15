@@ -24,8 +24,8 @@ or:
 
 * Before you can start working on your notebooks you need to set your password.
     * Run ` docker exec -it <name-of-your-container> bash` to access the container's shell.
-        * You can check the name of your containes by running `docker ps -a`
+        * You can check the name of your containers by running `docker ps -a`
     * In the container's shell run `jupyter notebook password` and enter your password when prompted.
-    * Finally in order to keep your password setting between contained deletions and creations you need to commit the container’s file changes into the image.
+    * Finally, in order to keep your password setting between container deletions and creations you need to commit the container’s file changes onto the image.
         * Run `docker commit <CONTAINER_ID> cagrisofu/jpylab3` 
             * You can find the `CONTAINER_ID` of your container by running `docker ps`.
