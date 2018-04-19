@@ -1,10 +1,12 @@
 numpy
+dill
 cython
 jupyter
 jupyterlab
 scipy
 matplotlib
 pandas
+daft
 patsy
 statsmodels
 scikit-learn
@@ -15,6 +17,7 @@ sympy
 networkx
 theano
 ptpython
+requests
 xlrd
 pandas
 pystan
