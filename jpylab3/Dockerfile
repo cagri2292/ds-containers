@@ -26,6 +26,7 @@ RUN apt-get update -y && apt-get install build-essential -y \
   && apt-get clean \
   && pip install virtualenv \
   && /usr/local/bin/virtualenv /opt/jpy3 --distribute --python=/usr/bin/python3 \
+  && /opt/jpy3/bin/pip install -U pip setuptools \
   && /opt/jpy3/bin/pip install -r /tmp/requirements.txt \
   && /opt/jpy3/bin/pip install http://download.pytorch.org/whl/cu80/torch-0.3.1-cp35-cp35m-linux_x86_64.whl \
   && /opt/jpy3/bin/pip install torchvision \
