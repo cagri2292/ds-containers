@@ -1,3 +1,4 @@
+gnupg
 numpy
 dill
 cython
@@ -22,6 +23,7 @@ xlrd
 pandas
 pystan
 tensorflow
+jupyter-tensorboard
 six
 edward
 pymc3

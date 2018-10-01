@@ -23,6 +23,12 @@ RUN groupadd --gid "$GID" "${USER}" && \
 
 RUN apt-get update -y && apt-get install build-essential -y \
   && xargs -a /tmp/apt-packages.txt apt-get install --no-install-recommends -y \
+  && curl -sL https://deb.nodesource.com/setup_8.x | bash \
+  && apt-get install nodejs -yq \
+  && node -v \
+  && npm -v \
+  && npm i -g nodemon \
+  && nodemon -v \
   && apt-get clean \
   && pip install virtualenv \
   && /usr/local/bin/virtualenv /opt/jpy3 --distribute --python=/usr/bin/python3 \
@@ -31,10 +37,12 @@ RUN apt-get update -y && apt-get install build-essential -y \
   && /opt/jpy3/bin/pip install http://download.pytorch.org/whl/cu80/torch-0.3.1-cp35-cp35m-linux_x86_64.whl \
   && /opt/jpy3/bin/pip install torchvision \
   && /opt/jpy3/bin/pip install pyro-ppl \
+  && /opt/jpy3/bin/pip install --upgrade tfp-nightly \
   && chown -R jpy3 /opt/jpy3 \
   && adduser jpy3 sudo \
   && /opt/jpy3/bin/jupyter serverextension enable --py jupyterlab --sys-prefix \
   && /opt/jpy3/bin/jupyter nbextension enable --py --sys-prefix widgetsnbextension \
+  && /opt/jpy3/bin/jupyter labextension install jupyterlab_tensorboard \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
 ADD run_ipython.sh /home/jpy3
