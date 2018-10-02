@@ -43,6 +43,7 @@ RUN apt-get update -y && apt-get install build-essential -y \
   && /opt/jpy3/bin/jupyter serverextension enable --py jupyterlab --sys-prefix \
   && /opt/jpy3/bin/jupyter nbextension enable --py --sys-prefix widgetsnbextension \
   && /opt/jpy3/bin/jupyter labextension install jupyterlab_tensorboard \
+  && /opt/jpy3/bin/jupyter tensorboard enable \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* 
 
 ADD run_ipython.sh /home/jpy3
@@ -60,6 +61,7 @@ ADD jupyter/jupyter_notebook_config.py /home/jpy3/.jupyter/jupyter_notebook_conf
 ADD .bashrc.template /home/jpy3/.bashrc
 
 EXPOSE 8888
+EXPOSE 6006
 USER jpy3
 ENV HOME=/home/jpy3
 ENV SHELL=/bin/bash
