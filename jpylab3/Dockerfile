@@ -60,6 +60,16 @@ RUN chmod +x /home/jpy3/run_ipython.sh \
 ADD jupyter/jupyter_notebook_config.py /home/jpy3/.jupyter/jupyter_notebook_config.py
 ADD .bashrc.template /home/jpy3/.bashrc
 
+# Jpy service
+RUN mkdir -p /etc/service/jpy
+COPY services/run_ipython.sh /etc/service/jpy/run
+RUN chmod a+x /etc/service/jpy/run
+
+# tensorboard service
+RUN mkdir -p /etc/service/tfb
+COPY services/run_tensorboard.sh /etc/service/tfb/run
+RUN chmod a+x /etc/service/tfp/run
+
 EXPOSE 8888
 EXPOSE 6006
 USER jpy3
@@ -69,4 +79,6 @@ ENV USER=jpy3
 VOLUME /home/jpy3/notebooks
 WORKDIR /home/jpy3/notebooks
 
-CMD ["/home/jpy3/run_ipython.sh"]
+#CMD ["/home/jpy3/run_ipython.sh"]
+# Use baseimage-docker's init system.
+CMD ["/sbin/my_init"]
