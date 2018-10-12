@@ -2,8 +2,6 @@ gnupg
 numpy
 dill
 cython
-jupyter
-jupyterlab
 scipy
 matplotlib
 pandas
@@ -23,7 +21,6 @@ xlrd
 pandas
 pystan
 tensorflow
-jupyter-tensorboard
 six
 edward
 pymc3
