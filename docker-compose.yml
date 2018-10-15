@@ -5,7 +5,6 @@ services:
         image: cagrisofu/jpylab3
         ports:
             - "443:8888"
-            - "6006:6006"
 
         volumes:
-            - ./:/home/jpy3/notebooks 
+            - ~/Workspace:/home/jpy3/notebooks 
