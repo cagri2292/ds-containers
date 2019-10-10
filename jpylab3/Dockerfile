@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-FROM phusion/baseimage
+FROM docker.io/phusion/baseimage
 
 # Export env settings
 ENV TERM=xterm
